@@ -64,5 +64,32 @@ let result = await db.query(qry);
       res.status(500).send(response);
     }
   },
+  getAll:async (req, res) =>{
+    try {
+      let qry = `SELECT id, full_name, user_name, contact_info, description, DATE_FORMAT(submission_date, '%d-%m-%Y') tanggal FROM serviceForms WHERE service_type = 'Permohonan Doa';`
+      let result = await db.query(qry);
+      console.log('====================================');
+      console.log(result);
+      console.log('====================================');
+
+
+      if (0 < result.length) {
+        let response = {
+          code: 200,
+          message: "success",
+          data: result,
+        };
+        res.status(200).send(response);
+      }
+      
+    } catch (error) {
+      let response = {
+        code: 500,
+        message: "error",
+        data: error.message,
+      };
+      res.status(500).send(response);
+    }
+  }
 };
 module.exports = service;

@@ -19,18 +19,18 @@ function getFullTime() {
 let artikel = {
   getAllData: async (req, res) => {
     try {
-      let qry = "SELECT * FROM artikel";
-      let hasil = await connection.execQry(qry);
-
+      let qry = "SELECT * FROM articles";
+      let hasil = await db.query(qry);
       console.log(hasil);
       let response = {
         code: 200,
         message: "success",
         data: hasil,
       };
-      console.log(response);
+      console.log("response",response);
       res.status(200).send(response);
       return hasil;
+
     } catch (error) {
       console.log(error);
       let response = {
@@ -256,8 +256,14 @@ let artikel = {
     let id = req.body.id;
     try {
       // Query to get the URL of the file you want to delete
-      let urlQuery = `SELECT image FROM artikel WHERE idArtikel = '${id}'`;
-      let urlResult = await connection.execQry(urlQuery);
+      let urlQuery = `SELECT image FROM articles WHERE idArtikel = '${id}'`;
+      console.log('===============urlQuery=====================');
+      console.log(urlQuery);
+      console.log('====================================');
+      let urlResult = await db.query(urlQuery);
+      console.log('================bbbb====================');
+      console.log(urlResult);
+      console.log('====================================');
       const fileURL = urlResult[0].image;
       console.log(fileURL);
   
@@ -277,9 +283,8 @@ let artikel = {
           console.log(`File ${fileURL} has been deleted`);
   
           // Delete the record from the database
-          let deleteQuery = `DELETE FROM artikel WHERE idArtikel = '${id}'`;
-          connection
-            .execQry(deleteQuery)
+          let deleteQuery = `DELETE FROM articles WHERE idArtikel = '${id}'`;
+          db.query(deleteQuery)
             .then((result) => {
               console.log(result);
               let response = {
