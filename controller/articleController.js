@@ -32,10 +32,9 @@ let artikel = {
       return hasil;
 
     } catch (error) {
-      console.log(error);
       let response = {
-        code: hasil.code,
-        message: hasil.message,
+        code: 400,
+        message:'error',
         error: error,
       };
       res.status(400).send(response);
