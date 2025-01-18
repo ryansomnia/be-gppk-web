@@ -20,7 +20,8 @@ let artikel = {
   getAllData: async (req, res) => {
     try {
       let qry = "SELECT * FROM articles";
-      let hasil = await db.query(qry);
+      const [hasil] = await db.query(qry);
+
       console.log(hasil);
       let response = {
         code: 200,
