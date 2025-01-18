@@ -1,37 +1,33 @@
 const mysql = require('mysql2');
 const util = require('util');
-let dotenv = require('dotenv');
-dotenv.config();
 
-const db = mysql.createConnection({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || 'Lzhyto237!',
-  database: process.env.DB_NAME || 'gppkcbn'
+// Konfigurasi pool koneksi
+const pool = mysql.createPool({
+  host: `${process.env.VPS_HOST}`,       // Sesuaikan dengan host database Anda
+  user: `${process.env.VPS_USERNAME}`,            // Sesuaikan dengan user database Anda
+  password: `${process.env.VPS_PASSWORD}`,    // Sesuaikan dengan password database Anda
+  database: `${process.env.VPS_DATABASE}`,     // Ganti dengan nama database Anda
+  waitForConnections: true,
+  connectionLimit: 10,     // Jumlah maksimal koneksi yang dapat dibuat
+  queueLimit: 0,           // Tidak ada batasan antrian koneksi
+  connectTimeout: 10000    // Waktu maksimal menunggu koneksi (dalam ms)
 });
 
-const reconnect = () => {
-  db.connect(err => {
-    if (err) {
-      console.error('Error reconnecting to the database:', err);
-      setTimeout(reconnect, 2000); // Coba ulangi koneksi setelah 2 detik
-    } else {
-      console.log('Reconnected to the database.');
-    }
-  });
-};
 
-// Coba koneksi awal
-db.connect(err => {
-  if (err) {
-    console.error('Initial connection error:', err);
-    reconnect();
-  } else {
-    console.log('Database connected.');
+// Konversi metode query menjadi promise
+pool.query = util.promisify(pool.query).bind(pool);
+
+// Penanganan error global (untuk reconnect jika pool terputus)
+pool.on('connection', () => {
+  console.log('Database connected.');
+});
+
+pool.on('error', (err) => {
+  console.error('Database error:', err);
+  if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+    console.log('Attempting to reconnect...');
+    // Pool akan otomatis membuat ulang koneksi yang terputus
   }
 });
 
-// Convert the query method to return promises
-db.query = util.promisify(db.query);
-
-module.exports = db;
+module.exports = pool;
