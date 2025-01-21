@@ -125,7 +125,9 @@ let artikel = {
     let filesize = image.size;
     let ext = path.extname(image.name);
     let filename = image.md5 + ext;
-    const url = `${req.protocol}://${req.get("host")}/images/${filename}`;
+        const url = `https://api.gppkcbn.org/images/${filename}`;
+
+    // const url = `${req.protocol}://${req.get("host")}/images/${filename}`;
     let allowedType = [".png", ".jpg", ".jpeg"];
 
     if (!allowedType.includes(ext.toLowerCase())) {
