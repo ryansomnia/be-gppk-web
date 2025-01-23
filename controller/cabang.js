@@ -20,7 +20,7 @@ let cabang = {
   getAllData: async (req, res) => {
     try {
       let qry = "SELECT * FROM cabang";
-      const [hasil] = await db.query(qry);
+      const hasil= await db.query(qry);
 
       console.log(hasil);
       let response = {
