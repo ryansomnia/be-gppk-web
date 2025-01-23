@@ -6,6 +6,7 @@ const articleController = require('./controller/articleController');
 const service = require('./controller/service');
 const reportBible = require('./controller/reportBible');
 const youtube = require('./controller/youtube');
+const cabang = require('./controller/cabang');
 
 // const authMiddleware = require('../middleware/authMiddleware');
 
@@ -26,6 +27,10 @@ router.get('/cbn/v1/reportBible/getAll', reportBible.getAll)
 router.post('/cbn/v1/reportBible/inputSchedule', reportBible.inputSchedule)
 router.post('/cbn/v1/reportBible/readingProgress', reportBible.readingProgress)
 router.get('/cbn/v1/reportBible/getTodaySchedule', reportBible.getTodaySchedule)
+
+router.get('/cbn/v1/cabang/getAllData',  cabang.getAllData)
+router.post('/cbn/v1/cabang/addCabang',  cabang.addCabang)
+router.get('/cbn/v1/cabang/deleteCabang',  cabang.deleteCabang)
 
 
 // Routes for articles
