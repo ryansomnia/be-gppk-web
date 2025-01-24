@@ -111,7 +111,7 @@ let cabang = {
       }
 
       try {
-        let insertQry = `INSERT INTO articles (namaCabang, img, pastor, address,)
+        let insertQry = `INSERT INTO cabang (namaCabang, img, pastor, address)
         VALUES ('${namaCabang}', '${url}', '${pastor}', '${address}')`;
 
         let hasilInsert = await db.query(insertQry);
