@@ -19,7 +19,7 @@ function getFullTime() {
 let youtube = {
   getAllData: async (req, res) => {
     try {
-      let qry = "SELECT * FROM YoutubeLink";
+      let qry = "SELECT * FROM YoutubeLink ORDER BY id DESC";
       let hasil = await db.query(qry);
       console.log(hasil);
       let response = {
