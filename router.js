@@ -30,7 +30,7 @@ router.get('/cbn/v1/reportBible/getTodaySchedule', reportBible.getTodaySchedule)
 
 router.get('/cbn/v1/cabang/getAllData',  cabang.getAllData)
 router.post('/cbn/v1/cabang/addCabang',  cabang.addCabang)
-router.get('/cbn/v1/cabang/deleteCabang',  cabang.deleteCabang)
+router.post('/cbn/v1/cabang/deleteCabang',  cabang.deleteCabang)
 
 
 // Routes for articles
