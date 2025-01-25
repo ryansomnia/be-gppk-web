@@ -42,6 +42,31 @@ let artikel = {
       res.status(400).send(response);
     }
   },
+  getBahanKKA: async(req, res) =>{
+    try {
+      let qry = "SELECT * FROM materiKKA ORDER BY idMateri DESC LIMIT 1;";
+      
+      const [hasil] = await db.query(qry);
+
+      console.log(hasil);
+      let response = {
+        code: 200,
+        message: "success",
+        data: hasil,
+      };
+      console.log("response",response);
+      res.status(200).send(response);
+      return hasil;
+
+    } catch (error) {
+      let response = {
+        code: 400,
+        message:'error',
+        error: error,
+      };
+      res.status(400).send(response);
+    }
+  },
   getDataByKategori: async (req, res) => {
     let kategori = req.body.kategori;
     try {
@@ -205,7 +230,9 @@ let artikel = {
     console.log("=================filename===================");
     console.log(filename);
     console.log("====================================");
-    const url = `${req.protocol}://${req.get("host")}/fileSharing/${filename}`;
+    const url = `https://api.gppkcbn.org/fileSharing/${filename}`;
+
+    // const url = `${req.protocol}://${req.get("host")}/fileSharing/${filename}`;
     let allowedType = [".pdf", ".doc", ".docx"];
 
     if (!allowedType.includes(ext.toLowerCase())) {
@@ -234,7 +261,7 @@ let artikel = {
         let insertQry = `INSERT INTO materiKKA (judulMateri, waktuPembuatan, url)
                 VALUES ('${judulMateri}','${getFullTime()}', '${url}')`;
 
-        let hasilInsert = await connection.execQry(insertQry);
+        let hasilInsert = await db.query(insertQry);
         console.log("hasilInsert", hasilInsert);
         let response = {
           code: 201,

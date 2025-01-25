@@ -15,6 +15,9 @@ router.post('/cbn/v1/user/register', user.register);
 
 
 router.post('/cbn/v1/artikel/addOneArticle', articleController.addArtikel);
+router.post('/cbn/v1/artikel/uploadbahanKKA', articleController.uploadBahanSharing);
+router.get('/cbn/v1/artikel/bahanKKA', articleController.getBahanKKA);
+
 router.get('/cbn/v1/artikel/getAllArticle', articleController.getAllData);
 router.post('/cbn/v1/artikel/getDataByKategori', articleController.getDataByKategori);
 router.post('/cbn/v1/artikel/deleteOneData', articleController.deleteOneData);
