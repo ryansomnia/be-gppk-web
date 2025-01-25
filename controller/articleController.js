@@ -20,6 +20,7 @@ let artikel = {
   getAllData: async (req, res) => {
     try {
       let qry = "SELECT * FROM articles ORDER BY idArtikel DESC";
+      
       const [hasil] = await db.query(qry);
 
       console.log(hasil);
@@ -44,7 +45,8 @@ let artikel = {
   getDataByKategori: async (req, res) => {
     let kategori = req.body.kategori;
     try {
-      let qry = `SELECT * FROM articles  ORDER BY idArtikel DESC WHERE kategori = '${kategori}' ORDER BY idArtikel DESC`;
+      let qry = `SELECT * FROM articles WHERE kategori = '${kategori}' ORDER BY idArtikel DESC`;
+
       let result = await db.query(qry);
       console.log('====================================');
       console.log(result);
