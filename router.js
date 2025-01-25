@@ -18,7 +18,12 @@ router.post('/cbn/v1/artikel/addOneArticle', articleController.addArtikel);
 router.get('/cbn/v1/artikel/getAllArticle', articleController.getAllData);
 router.post('/cbn/v1/artikel/getDataByKategori', articleController.getDataByKategori);
 router.post('/cbn/v1/artikel/deleteOneData', articleController.deleteOneData);
+
 router.get('/cbn/v1/youtube/getAllYoutube', youtube.getAllData);
+router.post('/cbn/v1/youtube/addData', youtube.addData);
+router.post('/cbn/v1/youtube/deleteData', youtube.deleteData);
+
+
 
 router.post('/cbn/v1/service/doa/formDoa', service.formDoa)
 router.get('/cbn/v1/service/doa/getAll', service.getAll)

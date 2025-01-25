@@ -15,6 +15,12 @@ function getFullTime() {
   console.log(time);
   return time;
 }
+function getYouTubeId(url) {
+  // Regular expression to match YouTube video IDs from various URL formats
+  const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|.+\?.*v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url.match(regex);
+  return match ? match[1] : null; // Return the ID if matched, otherwise null
+}
 
 let youtube = {
   getAllData: async (req, res) => {
@@ -40,6 +46,70 @@ let youtube = {
       res.status(400).send(response);
     }
   },
+  addData: async (req, res) => {
+    let { title, speaker, url} = req.body;
+
+  const videoId = getYouTubeId(url);
+  let link =  `https://www.youtube.com/embed/${videoId}`
+
+    try {
+      let qry = `INSERT INTO YoutubeLink (title, speaker, url) VALUES ('${title}','${speaker}','${link}');`;
+      let result = await db.query(qry);
+      console.log("====================================");
+      console.log(result);
+      console.log("====================================");
+
+      if (0 < result.length) {
+        let response = {
+          code: 201,
+          message: "success",
+          data: result,
+        };
+        res.status(200).send(response);
+      } else {
+        let response = {
+          code: 201,
+          message: "success",
+          data: [],
+        };
+        res.status(201).send(response);
+      }
+    } catch (error) {
+      let response = {
+        code: 500,
+        message: "error",
+        data: error.message,
+      };
+      res.status(500).send(response);
+    }
+  },
+  deleteData: async (req, res) => {
+    let id= req.body.id;
+
+    try {
+      let qry = `DELETE FROM YoutubeLink WHERE id = ${id}`;
+      let result = await db.query(qry);
+      console.log("====================================");
+      console.log(result);
+      console.log("====================================");
+
+   
+        let response = {
+          code: 200,
+          message: "success delete",
+          data: result,
+        };
+        res.status(200).send(response);
+   
+    } catch (error) {
+      let response = {
+        code: 500,
+        message: "error",
+        data: error.message,
+      };
+      res.status(500).send(response);
+    }
+  }
  
 };
 module.exports = youtube;
