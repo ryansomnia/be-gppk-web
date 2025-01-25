@@ -7,6 +7,7 @@ const service = require('./controller/service');
 const reportBible = require('./controller/reportBible');
 const youtube = require('./controller/youtube');
 const cabang = require('./controller/cabang');
+const kesaksian = require('./controller/kesaksian');
 
 // const authMiddleware = require('../middleware/authMiddleware');
 
@@ -26,10 +27,16 @@ router.get('/cbn/v1/youtube/getAllYoutube', youtube.getAllData);
 router.post('/cbn/v1/youtube/addData', youtube.addData);
 router.post('/cbn/v1/youtube/deleteData', youtube.deleteData);
 
+router.post('/cbn/v1/kesaksian/addOneData', articleController.addArtikel);
 
 
 router.post('/cbn/v1/service/doa/formDoa', service.formDoa)
 router.get('/cbn/v1/service/doa/getAll', service.getAll)
+
+router.get('/cbn/v1/artikel/kesaksian/getAllData', kesaksian.getAllData)
+router.post('/cbn/v1/artikel/kesaksian/addArtikel', kesaksian.addArtikel)
+router.post('/cbn/v1/artikel/kesaksian/deleteOneData', kesaksian.deleteOneData)
+
 
 router.get('/cbn/v1/reportBible/getAll', reportBible.getAll)
 router.post('/cbn/v1/reportBible/inputSchedule', reportBible.inputSchedule)
