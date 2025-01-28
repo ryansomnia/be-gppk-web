@@ -12,14 +12,15 @@ const FileUpload = require('express-fileupload')
 
 let dotenv = require('dotenv');
  dotenv.config();
-const corsOptions = {
-  origin: 'http://admin.gppkcbn.org:3011', // Sesuaikan dengan origin frontend Anda
+ const corsOptions = {
+  origin: 'http://admin.gppkcbn.org:3011', // Origin frontend
   methods: ['GET', 'POST', 'OPTIONS'], // Metode yang diizinkan
-  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token', 'X-Key'], // Header yang diizinkan
-  credentials: true, // Izinkan cookie atau kredensial
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'], // Header
+  credentials: true, // Izinkan cookie/kredensial
 };
 
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 app.use(express.static('public'));
 app.use(FileUpload());
@@ -43,11 +44,9 @@ app.get('', (req,res) => {
     res.render('index')
 })
 
-app.use(cors());
 
 app.use(morgan('dev'));
 
-app.options('*', cors(corsOptions));
 
 
 app.use('/', require('./router'))
