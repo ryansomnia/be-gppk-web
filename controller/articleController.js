@@ -21,7 +21,7 @@ let artikel = {
     try {
       let qry = "SELECT * FROM articles ORDER BY idArtikel DESC";
       
-      const [hasil] = await db.query(qry);
+      const hasil = await db.query(qry);
 
       console.log(hasil);
       let response = {
