@@ -13,7 +13,7 @@ const FileUpload = require('express-fileupload')
 let dotenv = require('dotenv');
  dotenv.config();
 const corsOptions = {
-  origin: 'admin.gppkcbn.org:3011', // Sesuaikan dengan origin frontend Anda
+  origin: 'http://admin.gppkcbn.org:3011', // Sesuaikan dengan origin frontend Anda
   methods: ['GET', 'POST', 'OPTIONS'], // Metode yang diizinkan
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token', 'X-Key'], // Header yang diizinkan
   credentials: true, // Izinkan cookie atau kredensial
