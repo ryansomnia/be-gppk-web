@@ -9,12 +9,21 @@ const FileUpload = require('express-fileupload')
 
 // const newrelic = require('newrelic');
 //setting cors
-app.options('*', cors());
+
+let dotenv = require('dotenv');
+ dotenv.config();
+const corsOptions = {
+  origin: 'admin.gppkcbn.org:3011', // Sesuaikan dengan origin frontend Anda
+  methods: ['GET', 'POST', 'OPTIONS'], // Metode yang diizinkan
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token', 'X-Key'], // Header yang diizinkan
+  credentials: true, // Izinkan cookie atau kredensial
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.static('public'));
 app.use(FileUpload());
-let dotenv = require('dotenv');
-let env = dotenv.config();
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -38,19 +47,8 @@ app.use(cors());
 
 app.use(morgan('dev'));
 
-app.all('/*', function (req, res, next) {
- 
-    // CORS headers
-    res.header("Access-Control-Allow-Origin", "*"); // restrict it to the required domain
-    res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
-    // Set custom headers for CORS
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With,Content-Type,Accept,X-Access-Token,X-Key');
-    if (req.method == 'OPTIONS') {
-      res.status(200).end();
-    } else {
-      next();
-    }
-  });
+app.options('*', cors(corsOptions));
+
 
 app.use('/', require('./router'))
 app.use(function (req, res, next) {
