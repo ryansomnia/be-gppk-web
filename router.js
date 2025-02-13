@@ -14,10 +14,13 @@ const kesaksian = require('./controller/kesaksian');
 router.post('/cbn/v1/user/login', user.login);
 router.post('/cbn/v1/user/register', user.register);
 
+router.get('/cbn/v1/kka/getAll', articleController.getAllData);
 
 router.post('/cbn/v1/artikel/addOneArticle', articleController.addArtikel);
 router.post('/cbn/v1/artikel/uploadbahanKKA', articleController.uploadBahanSharing);
 router.get('/cbn/v1/artikel/bahanKKA', articleController.getBahanKKA);
+router.get('/cbn/v1/artikel/newBahanKKA', articleController.newBahanKKA);
+
 
 router.get('/cbn/v1/artikel/getAllArticle', articleController.getAllData);
 router.post('/cbn/v1/artikel/getDataByKategori', articleController.getDataByKategori);

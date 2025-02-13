@@ -42,11 +42,36 @@ let artikel = {
       res.status(400).send(response);
     }
   },
-  getBahanKKA: async(req, res) =>{
+  newBahanKKA: async(req, res) =>{
     try {
-      let qry = "SELECT * FROM materiKKA ORDER BY idMateri DESC LIMIT 1;";
+      let qry = "SELECT * FROM materiKKA WHERE status = '1' ;";
       
       const [hasil] = await db.query(qry);
+
+      console.log(hasil);
+      let response = {
+        code: 200,
+        message: "success",
+        data: hasil,
+      };
+      console.log("response",response);
+      res.status(200).send(response);
+      return hasil;
+
+    } catch (error) {
+      let response = {
+        code: 400,
+        message:'error',
+        error: error,
+      };
+      res.status(400).send(response);
+    }
+  },
+  getBahanKKA: async(req, res) =>{
+    try {
+      let qry = "SELECT * FROM materiKKA ORDER BY idMateri DESC;";
+      
+      const hasil = await db.query(qry);
 
       console.log(hasil);
       let response = {
