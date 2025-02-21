@@ -126,7 +126,39 @@ let artikel = {
       res.status(500).send(response);
     }
   },
+  getOneMembacaAlkitab: async (req, res) => {
+    try {
+      let qry =`SELECT * FROM articles WHERE kategori = 'schedule3m' ORDER BY idArtikel DESC LIMIT 1`;
 
+      let result = await db.query(qry);
+      console.log('====================================');
+      console.log(result);
+      console.log('====================================');
+
+      if (0 < result.length) {
+        let response = {
+          code: 200,
+          message: "success",
+          data: result,
+        };
+        res.status(200).send(response);
+      } else {
+        let response = {
+          code: 201,
+          message: "success",
+          data: [],
+        };
+        res.status(201).send(response);
+      }
+    } catch (error) {
+      let response = {
+        code: 500,
+        message: "error",
+        data: error.message,
+      };
+      res.status(500).send(response);
+    }
+  },
   addArtikel: async (req, res) => {
     let judulArtikel = req.body.judulArtikel;
     if (judulArtikel == 0 || judulArtikel == null) {

@@ -24,6 +24,9 @@ router.get('/cbn/v1/artikel/newBahanKKA', articleController.newBahanKKA);
 
 router.get('/cbn/v1/artikel/getAllArticle', articleController.getAllData);
 router.post('/cbn/v1/artikel/getDataByKategori', articleController.getDataByKategori);
+router.get('/cbn/v1/artikel/getOneMembacaAlkitab', articleController.getOneMembacaAlkitab);
+router.get('/cbn/v1/artikel/getAllArticle', articleController.getAllData);
+
 router.post('/cbn/v1/artikel/deleteOneData', articleController.deleteOneData);
 
 router.get('/cbn/v1/youtube/getAllYoutube', youtube.getAllData);
