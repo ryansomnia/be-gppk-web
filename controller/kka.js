@@ -19,7 +19,7 @@ function getFullTime() {
 let kka = {
   getAllData: async (req, res) => {
     try {
-      let qry = "SELECT * FROM cabang";
+      let qry = "SELECT * FROM kka";
       const hasil= await db.query(qry);
 
       console.log(hasil);

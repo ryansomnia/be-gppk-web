@@ -8,24 +8,29 @@ const reportBible = require('./controller/reportBible');
 const youtube = require('./controller/youtube');
 const cabang = require('./controller/cabang');
 const kesaksian = require('./controller/kesaksian');
+const kka = require('./controller/kka');
+
 
 // const authMiddleware = require('../middleware/authMiddleware');
 
 router.post('/cbn/v1/user/login', user.login);
 router.post('/cbn/v1/user/register', user.register);
 
-router.get('/cbn/v1/kka/getAll', articleController.getAllData);
+router.get('/cbn/v1/kka/getAll', kka.getAllData);
 
 router.post('/cbn/v1/artikel/addOneArticle', articleController.addArtikel);
 router.post('/cbn/v1/artikel/uploadbahanKKA', articleController.uploadBahanSharing);
 router.get('/cbn/v1/artikel/bahanKKA', articleController.getBahanKKA);
 router.get('/cbn/v1/artikel/newBahanKKA', articleController.newBahanKKA);
+router.post('/cbn/v1/artikel/deleteRenungan', articleController.deleteRenungan);
+router.post('/cbn/v1/artikel/updateOneData/', articleController.updateOneData);
+
+
 
 
 router.get('/cbn/v1/artikel/getAllArticle', articleController.getAllData);
 router.post('/cbn/v1/artikel/getDataByKategori', articleController.getDataByKategori);
 router.get('/cbn/v1/artikel/getOneMembacaAlkitab', articleController.getOneMembacaAlkitab);
-router.get('/cbn/v1/artikel/getAllArticle', articleController.getAllData);
 
 router.post('/cbn/v1/artikel/deleteOneData', articleController.deleteOneData);
 

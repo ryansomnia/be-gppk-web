@@ -236,10 +236,10 @@ let artikel = {
       }
 
       try {
-        let insertQry = `INSERT INTO articles (title, content, kategori, tag, created_at, image, url)
-        VALUES ('${judulArtikel}', '${isiArtikel}', '${kategori}', '${tag}', '${getFullTime()}', '${filename}', '${url}')`;
-
-        let hasilInsert = await db.query(insertQry);
+        let insertQry = `INSERT INTO articles (title, content, kategori, tag, created_at, image, url) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+        let values = [judulArtikel, isiArtikel, kategori, tag, getFullTime(), filename, url];
+      
+        let hasilInsert = await db.query(insertQry, values);
         console.log("hasilInsert", hasilInsert);
         let response = {
           code: 201,
@@ -287,7 +287,7 @@ let artikel = {
     console.log("=================filename===================");
     console.log(filename);
     console.log("====================================");
-    const url = `https://api.gppkcbn.org/fileSharing/${filename}`;
+    const url = `localhost:3013/fileSharing/${filename}`;
 
     // const url = `${req.protocol}://${req.get("host")}/fileSharing/${filename}`;
     let allowedType = [".pdf", ".doc", ".docx"];
@@ -406,7 +406,178 @@ let artikel = {
       res.status(400).send(response);
     }
   },
+  updateOneData: async (req, res) => {
+  try {
+    const id = req.body.id; // Ambil ID dari request body
+
+    // Validasi ID
+    if (!id) {
+      return res.status(400).json({ code: 400, message: "Error", error: "ID tidak ditemukan di request body" });
+    }
+
+    let judulArtikel = req.body.judulArtikel;
+    if (!judulArtikel) {
+      return res.status(400).json({ code: 400, message: "Error", error: "Judul Artikel tidak terisi" });
+    }
+
+    let isiArtikel = req.body.isiArtikel;
+    if (!isiArtikel) {
+      return res.status(400).json({ code: 400, message: "Error", error: "Isi Artikel tidak terisi" });
+    }
+
+    let kategori = req.body.kategori;
+    if (!kategori) {
+      return res.status(400).json({ code: 400, message: "Error", error: "Kategori tidak terisi" });
+    }
+
+    let tag = req.body.tag;
+    if (!tag) {
+      return res.status(400).json({ code: 400, message: "Error", error: "Tag tidak terisi" });
+    }
+
+    let filename = null; // Nama file gambar baru
+    let url = null; // URL gambar baru
+
+    // Penanganan gambar jika ada unggahan baru
+    if (req.files && req.files.image) {
+      let image = req.files.image;
+      let filesize = image.size;
+      let ext = path.extname(image.name);
+      filename = image.md5 + ext;
+      url = `https://api.gppkcbn.org/images/${filename}`;
+
+      let allowedType = [".png", ".jpg", ".jpeg"];
+
+      if (!allowedType.includes(ext.toLowerCase())) {
+        return res.status(422).json({ msg: "Invalid Image" });
+      }
+
+      if (filesize > 5000000) {
+        return res.status(422).json({ msg: "Size overload" });
+      }
+
+      // Pindahkan gambar baru ke folder penyimpanan
+      await new Promise((resolve, reject) => {
+        image.mv(`./public/images/${filename}`, (err) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve();
+          }
+        });
+      });
+
+      // Ambil nama file gambar lama untuk dihapus
+      const oldImageQuery = `SELECT image FROM articles WHERE idArtikel = ${id}`;
+      const oldImageResult = await db.query(oldImageQuery);
+      const oldFilename = oldImageResult[0].image;
+
+      // Hapus gambar lama jika ada
+      if (oldFilename && oldFilename !== filename) {
+        const oldImagePath = `./public/images/${oldFilename}`;
+        const fs = require('fs').promises;
+        try {
+          await fs.unlink(oldImagePath);
+        } catch (err) {
+          console.error(`Gagal menghapus gambar lama: ${oldImagePath}`, err);
+          // Anda mungkin ingin mencatat error ini tetapi tetap melanjutkan pembaruan artikel
+        }
+      }
+    } else {
+      // Jika tidak ada unggahan gambar baru, ambil URL gambar lama dari database
+      const oldImageUrlQuery = `SELECT url FROM articles WHERE idArtikel = ${id}`;
+     
+      const oldImageUrlResult = await db.query(oldImageUrlQuery);
+      console.log('====================================');
+      console.log(oldImageUrlResult);
+      console.log('====================================');
+      url = oldImageUrlResult[0].url;
+      filename = oldImageUrlResult[0].url.split('/').pop()
+    }
+
+    // Update data artikel di database
+    let updateQry = `UPDATE articles SET title = '${judulArtikel}', content = '${isiArtikel}', kategori = '${kategori}', tag = '${tag}', image = '${filename}', url = '${url}' WHERE idArtikel = ${id}`;
+    await db.query(updateQry);
+
+    let response = {
+      code: 200,
+      message: "success",
+      data: "Data berhasil diperbarui",
+    };
+    return res.status(200).send(response);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ code: 500, message: "error", error: err.message });
+  }
+},
+   
+  deleteRenungan: async (req, res) => {
+    let id = req.body.id;
+    try {
+      // Query to get the URL of the file you want to delete
+      let urlQuery = `SELECT url FROM materiKKA WHERE idMateri = '${id}'`;
+      console.log('===============urlQuery=====================');
+      console.log(urlQuery);
+      console.log('====================================');
+      let urlResult = await db.query(urlQuery);
+      console.log('================bbbb====================');
+      console.log(urlResult);
+      console.log('====================================');
+      const fileURL = urlResult[0].url;
+      const filename = fileURL.match(/[^/]+$/)[0];
+      console.log(filename);
   
+      // Deleting the file
+      const filePath = path.join(__dirname, '..', 'public', 'fileSharing', filename);
+  
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.log(err);
+          let response = {
+            code: 400,
+            message: "File deletion failed",
+            error: err,
+          };
+          res.status(400).send(response);
+        } else {
+          console.log(`File ${filename} has been deleted`);
+  
+          // Delete the record from the database
+          let deleteQuery = `DELETE FROM materiKKA WHERE idMateri = '${id}'`;
+          db.query(deleteQuery)
+            .then((result) => {
+              console.log(result);
+              let response = {
+                code: 200,
+                message: "File and record deleted successfully",
+                data: result,
+              };
+              res.status(200).send(response);
+            })
+            .catch((error) => {
+              console.log(error);
+              let response = {
+                code: 400,
+                message: "Database record deletion failed",
+                error: error,
+              };
+              res.status(400).send(response);
+            });
+        }
+      });
+  
+      // Response should not be here
+      return;
+    } catch (error) {
+      console.log(error);
+      let response = {
+        code: 400,
+        message: "error",
+        error: error.message,
+      };
+      res.status(400).send(response);
+    }
+  },
   // editOneData : async(req, res) =>{
 
   // }
