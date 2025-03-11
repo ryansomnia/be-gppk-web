@@ -109,6 +109,53 @@ let youtube = {
       };
       res.status(500).send(response);
     }
+  },
+  updateData: async (req, res) => {
+    let id = req.body.id;
+    let title = req.body.title;
+    let speaker = req.body.speaker;
+    let url = req.body.url;
+
+    if (!id || !title || !speaker || !url) {
+      return res.status(400).send({
+        code: 400,
+        message: "Missing required fields (id, title, speaker, url).",
+      });
+    }
+
+    try {
+      let qry = `UPDATE YoutubeLink SET title = ?, speaker = ?, url = ? WHERE id = ?`;
+      let result = await db.query(qry, [title, speaker, url, id]);
+      console.log("====================================");
+      console.log(result);
+      console.log("====================================");
+
+      // Fetch the updated data to return in the response
+      let selectQry = `SELECT * FROM YoutubeLink WHERE id = ?`;
+      let updatedData = await db.query(selectQry, [id]);
+
+      if (updatedData && updatedData.length > 0) {
+        let response = {
+          code: 200,
+          message: "success update",
+          data: updatedData[0], // Send the first row (updated data)
+        };
+        res.status(200).send(response);
+      } else {
+        let response = {
+          code: 404,
+          message: "Data not found after update.",
+        };
+        res.status(404).send(response);
+      }
+    } catch (error) {
+      let response = {
+        code: 500,
+        message: "error",
+        data: error.message,
+      };
+      res.status(500).send(response);
+    }
   }
  
 };

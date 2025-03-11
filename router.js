@@ -24,6 +24,8 @@ router.get('/cbn/v1/artikel/bahanKKA', articleController.getBahanKKA);
 router.get('/cbn/v1/artikel/newBahanKKA', articleController.newBahanKKA);
 router.post('/cbn/v1/artikel/deleteRenungan', articleController.deleteRenungan);
 router.post('/cbn/v1/artikel/updateOneData/', articleController.updateOneData);
+router.post('/cbn/v1/artikel/updateOneRenunganData/', articleController.updateOneRenunganData);
+
 
 
 
@@ -37,12 +39,15 @@ router.post('/cbn/v1/artikel/deleteOneData', articleController.deleteOneData);
 router.get('/cbn/v1/youtube/getAllYoutube', youtube.getAllData);
 router.post('/cbn/v1/youtube/addData', youtube.addData);
 router.post('/cbn/v1/youtube/deleteData', youtube.deleteData);
+router.post('/cbn/v1/youtube/updateData', youtube.updateData);
 
 router.post('/cbn/v1/kesaksian/addOneData', articleController.addArtikel);
 
 
 router.post('/cbn/v1/service/doa/formDoa', service.formDoa)
 router.get('/cbn/v1/service/doa/getAll', service.getAll)
+router.post('/cbn/v1/service/doa/deleteOne', service.deleteOneData)
+router.post('/cbn/v1/service/baptisan/formBaptisan', service.formBaptisan)
 
 router.get('/cbn/v1/artikel/kesaksian/getAllData', kesaksian.getAllData)
 router.post('/cbn/v1/artikel/kesaksian/addArtikel', kesaksian.addArtikel)

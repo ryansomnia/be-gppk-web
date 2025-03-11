@@ -283,11 +283,11 @@ let artikel = {
     console.log("================ext====================");
     console.log(ext);
     console.log("====================================");
-    let filename = file.md5 + ext;
+    let filename = file.name + ext;
     console.log("=================filename===================");
     console.log(filename);
     console.log("====================================");
-    const url = `localhost:3013/fileSharing/${filename}`;
+    const url = `https://api.gppkcbn.org/fileSharing/${filename}`;
 
     // const url = `${req.protocol}://${req.get("host")}/fileSharing/${filename}`;
     let allowedType = [".pdf", ".doc", ".docx"];
@@ -497,6 +497,101 @@ let artikel = {
 
     // Update data artikel di database
     let updateQry = `UPDATE articles SET title = '${judulArtikel}', content = '${isiArtikel}', kategori = '${kategori}', tag = '${tag}', image = '${filename}', url = '${url}' WHERE idArtikel = ${id}`;
+    await db.query(updateQry);
+
+    let response = {
+      code: 200,
+      message: "success",
+      data: "Data berhasil diperbarui",
+    };
+    return res.status(200).send(response);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ code: 500, message: "error", error: err.message });
+  }
+},
+updateOneRenunganData: async (req, res) => {
+  try {
+    const id = req.body.id; // Ambil ID dari request body
+
+    // Validasi ID
+    if (!id) {
+      return res.status(400).json({ code: 400, message: "Error", error: "ID tidak ditemukan di request body" });
+    }
+
+    let judulMateri = req.body.judulMateri;
+    if (!judulMateri) {
+      return res.status(400).json({ code: 400, message: "Error", error: "judulMateri tidak terisi" });
+    }
+    let status = req.body.status;
+    if (!status) {
+      return res.status(400).json({ code: 400, message: "Error", error: "status tidak terisi" });
+    }
+ 
+
+
+    let filename = null; // Nama file document baru
+    let url = null; // URL document baru
+
+    // Penanganan gambar jika ada unggahan baru
+    if (req.files && req.files.file) {
+      let fileDoc = req.files.file;
+      let filesize = fileDoc.size;
+      let ext = path.extname(fileDoc.name);
+      filename = fileDoc + ext;
+      url = `https://api.gppkcbn.org/fileSharing/${filename}`;
+
+      let allowedType = [".doc", ".pdf", ".docx"];
+
+      if (!allowedType.includes(ext.toLowerCase())) {
+        return res.status(422).json({ msg: "Invalid Doc" });
+      }
+
+      if (filesize > 5000000) {
+        return res.status(422).json({ msg: "Size overload" });
+      }
+
+      // Pindahkan gambar baru ke folder penyimpanan
+      await new Promise((resolve, reject) => {
+        fileDoc.mv(`./public/fileSharing/${filename}`, (err) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve();
+          }
+        });
+      });
+
+      // Ambil nama file gambar lama untuk dihapus
+      const oldDocQuery = `SELECT url FROM materiKKA WHERE idMateri = ${id}`;
+      const oldDocResult = await db.query(oldDocQuery);
+      const oldFilename = oldDocResult[0].url;
+
+      // Hapus gambar lama jika ada
+      if (oldFilename && oldFilename !== filename) {
+        const oldDocPath = `./public/fileSharing/${oldFilename}`;
+        const fs = require('fs').promises;
+        try {
+          await fs.unlink(oldDocPath);
+        } catch (err) {
+          console.error(`Gagal menghapus Doc lama: ${oldDocPath}`, err);
+          // Anda mungkin ingin mencatat error ini tetapi tetap melanjutkan pembaruan artikel
+        }
+      }
+    } else {
+      // Jika tidak ada unggahan gambar baru, ambil URL gambar lama dari database
+      const oldDocUrlQuery = `SELECT url FROM materiKKA WHERE idMateri = ${id}`;
+     
+      const oldDocUrlResult = await db.query(oldDocUrlQuery);
+      console.log('====================================');
+      console.log(oldDocUrlResult);
+      console.log('====================================');
+      url = oldDocUrlResult[0].url;
+      filename = oldDocUrlResult[0].url.split('/').pop()
+    }
+
+    // Update data artikel di database
+    let updateQry = `UPDATE materiKKA SET judulMateri = '${judulMateri}', url = '${url}', status = '${status}' WHERE idMateri = ${id}`;
     await db.query(updateQry);
 
     let response = {
