@@ -223,7 +223,7 @@ let result = await db.query(qry);
   },
   getAll:async (req, res) =>{
     try {
-      let qry = `SELECT id, full_name, user_name, contact_info, description, DATE_FORMAT(submission_date, '%d-%m-%Y') tanggal FROM serviceForms WHERE service_type = 'Permohonan Doa';`
+      let qry = `SELECT id, full_name, user_name, contact_info, description, DATE_FORMAT(submission_date, '%d-%m-%Y') tanggal FROM serviceForms WHERE service_type = 'Permohonan Doa' ORDER BY submission_date DESC;`
       let result = await db.query(qry);
       console.log('====================================');
       console.log(result);
