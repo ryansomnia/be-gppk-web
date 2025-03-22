@@ -47,7 +47,9 @@ router.post('/cbn/v1/kesaksian/addOneData', articleController.addArtikel);
 router.post('/cbn/v1/service/doa/formDoa', service.formDoa)
 router.get('/cbn/v1/service/doa/getAll', service.getAll)
 router.post('/cbn/v1/service/doa/deleteOne', service.deleteOneData)
-router.post('/cbn/v1/service/baptisan/formBaptisan', service.formBaptisan)
+router.get('/cbn/v1/service/baptisan/getFormBaptisan', service.getFormBaptisan)
+router.post('/cbn/v1/service/baptisan/addFormBaptisan', service.formBaptisan)
+router.post('/cbn/v1/service/baptisan/deleteFormBaptisan', service.deleteDataBaptisan)
 
 router.get('/cbn/v1/artikel/kesaksian/getAllData', kesaksian.getAllData)
 router.post('/cbn/v1/artikel/kesaksian/addArtikel', kesaksian.addArtikel)

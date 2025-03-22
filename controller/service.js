@@ -75,12 +75,11 @@ let result = await db.query(qry);
       pendidikanTerakhir,
       pekerjaan,
       kka,
-      statusPernikahan,
+      status,
       tanggalMenikah,
       kepercayaanLama,
       jumlahKeluarga,
-      keluarga,
-      pernyataanBaptis,
+      keluarga
     } = req.body;
   
 
@@ -89,8 +88,8 @@ let result = await db.query(qry);
     try {
       let qry = `
       INSERT INTO formBaptisanAir (
-        NamaLengkap, TempatLahir, TanggalLahir, Alamat, NoHP, PendidikanTerakhir, Pekerjaan, KKA, StatusPernikahan, TanggalMenikah, KepercayaanLama, JumlahKeluarga, Keluarga, PernyataanBaptis
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        NamaLengkap, TempatLahir, TanggalLahir, Alamat, NoHP, PendidikanTerakhir, Pekerjaan, KKA, StatusPernikahan, TanggalMenikah, KepercayaanLama, JumlahKeluarga, Keluarga
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     let values = [
       namaLengkap,
@@ -101,18 +100,96 @@ let result = await db.query(qry);
       pendidikanTerakhir,
       pekerjaan,
       kka,
-      statusPernikahan,
+      status,
       tanggalMenikah, // Gunakan nilai langsung
       kepercayaanLama,
       jumlahKeluarga,
-      JSON.stringify(keluarga),
-      pernyataanBaptis,
-    ];
+      JSON.stringify(keluarga)    ];
       console.log('==============qry======================');
 console.log(qry);
 console.log('====================================');      
 let result = await db.query(qry, values);
 console.log('====================================');
+      console.log(result);
+      console.log('====================================');
+      
+
+      if (result && result.affectedRows > 0) {
+        let response = {
+          code: 200,
+          message: "success",
+          data: result,
+        };
+        res.status(200).send(response);
+      } else {
+        let response = {
+          code: 201,
+          message: "success",
+          data: [],
+        };
+        res.status(201).send(response);
+      }
+    }catch (error) {
+      let response = {
+        code: 500,
+        message: "error",
+        data: error.message,
+      };
+      console.log('====================================');
+      console.log(response);
+      console.log('====================================');
+      res.status(500).send(response);
+    }
+  },
+  getFormBaptisan: async (req, res) => {
+ 
+    try {
+      let qry = `SELECT * FROM formBaptisanAir`;
+   
+      console.log('==============qry======================');
+console.log(qry);
+console.log('====================================');      
+let result = await db.query(qry);
+console.log('====================================');
+      console.log(result);
+      console.log('====================================');
+      
+
+      if (0 < result.length) {
+        let response = {
+          code: 200,
+          message: "success",
+          data: result,
+        };
+        res.status(200).send(response);
+      }
+    }catch (error) {
+      let response = {
+        code: 500,
+        message: "error",
+        data: error.message,
+      };
+      console.log('====================================');
+      console.log(response);
+      console.log('====================================');
+      res.status(500).send(response);
+    }
+  },
+  deleteDataBaptisan: async (req, res) => {
+    
+  let id = req.body.id
+
+
+
+    try {
+      let qry = `DELETE FROM formBaptisanAir WHERE ID = '${id}'`;
+     console.log('============tttt========================');
+     console.log(qry);
+     console.log('====================================');
+let result = await db.query(qry);
+      console.log('====================================');
+      console.log(qry);
+
       console.log(result);
       console.log('====================================');
       
@@ -177,7 +254,7 @@ console.log('====================================');
 
           // Delete the record from the database
           let deleteQuery = `DELETE FROM serviceForms 
-          WHERE idArtikel = '${id}' AND service_type = 'Permohonan Doa'`;
+          WHERE id = '${id}' AND service_type = 'Permohonan Doa'`;
           db.query(deleteQuery)
             .then((result) => {
               console.log(result);
