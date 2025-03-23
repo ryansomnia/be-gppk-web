@@ -50,6 +50,7 @@ router.post('/cbn/v1/service/doa/deleteOne', service.deleteOneData)
 router.get('/cbn/v1/service/baptisan/getFormBaptisan', service.getFormBaptisan)
 router.post('/cbn/v1/service/baptisan/addFormBaptisan', service.formBaptisan)
 router.post('/cbn/v1/service/baptisan/deleteFormBaptisan', service.deleteDataBaptisan)
+router.post('/cbn/v1/service/konseling/addData', service.addKonsultasiData)
 
 router.get('/cbn/v1/artikel/kesaksian/getAllData', kesaksian.getAllData)
 router.post('/cbn/v1/artikel/kesaksian/addArtikel', kesaksian.addArtikel)

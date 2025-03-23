@@ -65,6 +65,56 @@ let result = await db.query(qry);
       res.status(500).send(response);
     }
   },
+  addKonsultasiData: async (req, res) => {
+    let {
+        jenisKonsultasi,
+        fullName,
+        tanggalLahir,
+        sex,
+        statusPernikahan,
+        noHP,
+        alamat,
+        isi
+    } = req.body
+
+
+
+    try {
+      let qry = `INSERT INTO konsultasi (jenisKonsultasi,fullName,tanggalLahir,sex,statusPernikahan,noHP,alamat,isi
+) VALUES ('${jenisKonsultasi}', '${fullName}', '${tanggalLahir}','${sex}', '${statusPernikahan}','${noHP}', '${alamat}','${isi}');`;
+console.log('==============qry======================');
+console.log(qry);
+console.log('====================================');      
+let result = await db.query(qry);
+      console.log('====================================');
+      console.log(result);
+      console.log('====================================');
+      
+
+      if (0 < result.length) {
+        let response = {
+          code: 200,
+          message: "success",
+          data: result,
+        };
+        res.status(200).send(response);
+      } else {
+        let response = {
+          code: 201,
+          message: "success",
+          data: [],
+        };
+        res.status(201).send(response);
+      }
+    } catch (error) {
+      let response = {
+        code: 500,
+        message: "error",
+        data: error.message,
+      };
+      res.status(500).send(response);
+    }
+  },
   formBaptisan: async (req, res) => {
     const {
       namaLengkap,
