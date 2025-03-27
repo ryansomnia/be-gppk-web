@@ -245,6 +245,49 @@ let result = await db.query(qry);
       res.status(500).send(response);
     }
   },
+  addPenyerahanAnak: async (req, res) => {
+    try {
+    const {
+      namaAyah, tempatTanggalLahirAyah, alamatAyah, teleponAyah, tempatTanggalBaptisAyah, pendidikanTerakhirAyah, pekerjaanAyah, kkaAyah, wilayahAyah,
+      namaIbu, tempatTanggalLahirIbu, alamatIbu, teleponIbu, tempatTanggalBaptisIbu, pendidikanTerakhirIbu, pekerjaanIbu, kkaIbu, wilayahIbu,
+      namaAnak, tempatTanggalLahirAnak,
+    } = req.body;
+    
+ 
+      let qry = `INSERT INTO penyerahanAnak (nama_ayah, tempat_tanggal_lahir_ayah, alamat_ayah, telepon_ayah, tempat_tanggal_baptis_ayah, pendidikan_terakhir_ayah, pekerjaan_ayah, kka_ayah, wilayah_ayah, nama_ibu, tempat_tanggal_lahir_ibu, alamat_ibu, telepon_ibu, tempat_tanggal_baptis_ibu, pendidikan_terakhir_ibu, pekerjaan_ibu, kka_ibu, wilayah_ibu, nama_anak, tempat_tanggal_lahir_anak) 
+      VALUES ('${namaAyah}', '${tempatTanggalLahirAyah}', '${alamatAyah}', '${teleponAyah}', '${tempatTanggalBaptisAyah}', '${pendidikanTerakhirAyah}', '${pekerjaanAyah}', '${kkaAyah}', '${wilayahAyah}', '${namaIbu}', '${tempatTanggalLahirIbu}', '${alamatIbu}', '${teleponIbu}', '${tempatTanggalBaptisIbu}', '${pendidikanTerakhirIbu}', '${pekerjaanIbu}', '${kkaIbu}', '${wilayahIbu}', '${namaAnak}', '${tempatTanggalLahirAnak}')`;
+    
+let result = await db.query(qry);
+      
+
+      if (0 < result.length) {
+        let response = {
+          code: 200,
+          message: "success",
+          data: result,
+        };
+        res.status(200).send(response);
+      } else {
+        let response = {
+          code: 201,
+          message: "success",
+          data: [],
+        };
+        res.status(201).send(response);
+      }
+    } catch (error) {
+      
+      let response = {
+        code: 500,
+        message: "error",
+        data: error.message,
+      };
+      console.log('====================================');
+      console.log(response);
+      console.log('====================================');
+      res.status(500).send(response);
+    }
+  },
   formBaptisan: async (req, res) => {
     const {
       namaLengkap,
