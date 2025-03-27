@@ -53,6 +53,7 @@ router.post('/cbn/v1/service/baptisan/deleteFormBaptisan', service.deleteDataBap
 router.post('/cbn/v1/service/konseling/addData', service.addKonsultasiData)
 router.post('/cbn/v1/service/pelayan/addData', service.addPelayanData)
 router.post('/cbn/v1/service/pernikahan/addData', service.addPernikahanData)
+router.post('/cbn/v1/service/pemberkatanRumah/addData', service.addPemberkatanRumahData)
 
 router.get('/cbn/v1/artikel/kesaksian/getAllData', kesaksian.getAllData)
 router.post('/cbn/v1/artikel/kesaksian/addArtikel', kesaksian.addArtikel)

@@ -204,6 +204,47 @@ let result = await db.query(qry);
       res.status(500).send(response);
     }
   },
+  addPemberkatanRumahData: async (req, res) => {
+    const { namaLengkap, alamat, nomorHandphone, tanggalPelaksanaan } = req.body;
+
+
+
+
+    try {
+      let qry = `INSERT INTO pemberkatanRumah (nama_lengkap, alamat, nomor_handphone, tanggal_pelaksanaan)
+       VALUES ('${namaLengkap}', '${alamat}', '${nomorHandphone}', '${tanggalPelaksanaan}')`;
+    
+let result = await db.query(qry);
+      
+
+      if (0 < result.length) {
+        let response = {
+          code: 200,
+          message: "success",
+          data: result,
+        };
+        res.status(200).send(response);
+      } else {
+        let response = {
+          code: 201,
+          message: "success",
+          data: [],
+        };
+        res.status(201).send(response);
+      }
+    } catch (error) {
+      
+      let response = {
+        code: 500,
+        message: "error",
+        data: error.message,
+      };
+      console.log('====================================');
+      console.log(response);
+      console.log('====================================');
+      res.status(500).send(response);
+    }
+  },
   formBaptisan: async (req, res) => {
     const {
       namaLengkap,
