@@ -115,6 +115,95 @@ let result = await db.query(qry);
       res.status(500).send(response);
     }
   },
+  addPelayanData: async (req, res) => {
+    let {
+      namaLengkap,
+      nomorHandphone,
+      bidangPelayanan
+    } = req.body
+
+
+
+    try {
+      let qry = `INSERT INTO pelayanBaru (namaLengkap, nomorHandphone, bidangPelayanan) 
+      VALUES ('${namaLengkap}', '${nomorHandphone}', '${bidangPelayanan}');`;
+console.log('==============qry======================');
+console.log(qry);
+console.log('====================================');      
+let result = await db.query(qry);
+      console.log('====================================');
+      console.log(result);
+      console.log('====================================');
+      
+
+      if (0 < result.length) {
+        let response = {
+          code: 200,
+          message: "success",
+          data: result,
+        };
+        res.status(200).send(response);
+      } else {
+        let response = {
+          code: 201,
+          message: "success",
+          data: [],
+        };
+        res.status(201).send(response);
+      }
+    } catch (error) {
+      let response = {
+        code: 500,
+        message: "error",
+        data: error.message,
+      };
+      res.status(500).send(response);
+    }
+  },
+  addPernikahanData: async (req, res) => {
+    const {
+      namaLengkapPria, tempatLahirPria, tanggalLahirPria, alamatPria, teleponPria, pendidikanTerakhirPria, pekerjaanPria, kkaPria, wilayahPria,
+      namaLengkapWanita, tempatLahirWanita, tanggalLahirWanita, alamatWanita, teleponWanita, pendidikanTerakhirWanita, pekerjaanWanita, kkaWanita, wilayahWanita,
+      tanggalPernikahan, jamPernikahan, tempatPernikahan, pelayanPernikahan,
+    } = req.body;
+
+
+
+    try {
+      let qry = `INSERT INTO peneguhan_nikah (nama_lengkap_pria, tempat_lahir_pria, tanggal_lahir_pria, alamat_pria, telepon_pria, pendidikan_terakhir_pria, pekerjaan_pria, kka_pria, wilayah_pria, nama_lengkap_wanita, tempat_lahir_wanita, tanggal_lahir_wanita, alamat_wanita, telepon_wanita, pendidikan_terakhir_wanita, pekerjaan_wanita, kka_wanita, wilayah_wanita, tanggal_pernikahan, jam_pernikahan, tempat_pernikahan, pelayan_pernikahan) 
+      VALUES ('${namaLengkapPria}', '${tempatLahirPria}', '${tanggalLahirPria}', '${alamatPria}', '${teleponPria}', '${pendidikanTerakhirPria}', '${pekerjaanPria}', '${kkaPria}', '${wilayahPria}', '${namaLengkapWanita}', '${tempatLahirWanita}', '${tanggalLahirWanita}', '${alamatWanita}', '${teleponWanita}', '${pendidikanTerakhirWanita}', '${pekerjaanWanita}', '${kkaWanita}', '${wilayahWanita}', '${tanggalPernikahan}', '${jamPernikahan}', '${tempatPernikahan}', '${pelayanPernikahan}')`;
+    
+let result = await db.query(qry);
+      
+
+      if (0 < result.length) {
+        let response = {
+          code: 200,
+          message: "success",
+          data: result,
+        };
+        res.status(200).send(response);
+      } else {
+        let response = {
+          code: 201,
+          message: "success",
+          data: [],
+        };
+        res.status(201).send(response);
+      }
+    } catch (error) {
+      
+      let response = {
+        code: 500,
+        message: "error",
+        data: error.message,
+      };
+      console.log('====================================');
+      console.log(response);
+      console.log('====================================');
+      res.status(500).send(response);
+    }
+  },
   formBaptisan: async (req, res) => {
     const {
       namaLengkap,
