@@ -398,6 +398,186 @@ console.log('====================================');
       res.status(500).send(response);
     }
   },
+  getKonselingData: async (req, res) => {
+ 
+    try {
+      let qry = `SELECT * FROM konsultasi`;
+   
+      console.log('==============qry======================');
+console.log(qry);
+console.log('====================================');      
+let result = await db.query(qry);
+console.log('====================================');
+      console.log(result);
+      console.log(result.length);
+
+      console.log('====================================');
+      
+
+      if (0 < result.length) {
+        let response = {
+          code: 200,
+          message: "success",
+          data: result,
+        };
+        res.status(200).send(response);
+      }
+    }catch (error) {
+      let response = {
+        code: 500,
+        message: "error",
+        data: error.message,
+      };
+      console.log('====================================');
+      console.log(response);
+      console.log('====================================');
+      res.status(500).send(response);
+    }
+  },
+  getPelayanData: async (req, res) => {
+ 
+    try {
+      let qry = `SELECT * FROM pelayanBaru`;
+   
+      console.log('==============qry======================');
+console.log(qry);
+console.log('====================================');      
+let result = await db.query(qry);
+console.log('====================================');
+      console.log(result);
+      console.log(result.length);
+
+      console.log('====================================');
+      
+
+      if (0 < result.length) {
+        let response = {
+          code: 200,
+          message: "success",
+          data: result,
+        };
+        res.status(200).send(response);
+      }
+    }catch (error) {
+      let response = {
+        code: 500,
+        message: "error",
+        data: error.message,
+      };
+      console.log('====================================');
+      console.log(response);
+      console.log('====================================');
+      res.status(500).send(response);
+    }
+  },
+  getPernikahanData: async (req, res) => {
+ 
+    try {
+      let qry = `SELECT * FROM peneguhan_nikah`;
+   
+      console.log('==============qry======================');
+console.log(qry);
+console.log('====================================');      
+let result = await db.query(qry);
+console.log('====================================');
+      console.log(result);
+      console.log(result.length);
+
+      console.log('====================================');
+      
+
+      if (0 < result.length) {
+        let response = {
+          code: 200,
+          message: "success",
+          data: result,
+        };
+        res.status(200).send(response);
+      }
+    }catch (error) {
+      let response = {
+        code: 500,
+        message: "error",
+        data: error.message,
+      };
+      console.log('====================================');
+      console.log(response);
+      console.log('====================================');
+      res.status(500).send(response);
+    }
+  },
+  getPemberkatanRumah: async (req, res) => {
+ 
+    try {
+      let qry = `SELECT * FROM pemberkatanRumah`;
+   
+      console.log('==============qry======================');
+console.log(qry);
+console.log('====================================');      
+let result = await db.query(qry);
+console.log('====================================');
+      console.log(result);
+      console.log(result.length);
+
+      console.log('====================================');
+      
+
+      if (0 < result.length) {
+        let response = {
+          code: 200,
+          message: "success",
+          data: result,
+        };
+        res.status(200).send(response);
+      }
+    }catch (error) {
+      let response = {
+        code: 500,
+        message: "error",
+        data: error.message,
+      };
+      console.log('====================================');
+      console.log(response);
+      console.log('====================================');
+      res.status(500).send(response);
+    }
+  },
+  getPenyerahanAnak: async (req, res) => {
+ 
+    try {
+      let qry = `SELECT * FROM penyerahanAnak`;
+   
+      console.log('==============qry======================');
+console.log(qry);
+console.log('====================================');      
+let result = await db.query(qry);
+console.log('====================================');
+      console.log(result);
+      console.log(result.length);
+
+      console.log('====================================');
+      
+
+      if (0 < result.length) {
+        let response = {
+          code: 200,
+          message: "success",
+          data: result,
+        };
+        res.status(200).send(response);
+      }
+    }catch (error) {
+      let response = {
+        code: 500,
+        message: "error",
+        data: error.message,
+      };
+      console.log('====================================');
+      console.log(response);
+      console.log('====================================');
+      res.status(500).send(response);
+    }
+  },
   deleteDataBaptisan: async (req, res) => {
     
   let id = req.body.id
