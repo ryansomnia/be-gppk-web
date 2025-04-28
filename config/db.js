@@ -3,11 +3,11 @@ const util = require('util');
 
 // Konfigurasi pool koneksi
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,       // Sesuaikan dengan host database Anda
-  user: process.env.DB_USER,            // Sesuaikan dengan user database Anda
-  password: process.env.DB_PASSWORD,    // Sesuaikan dengan password database Anda
-  database: process.env.DB_NAME,     // Ganti dengan nama database Anda
-  waitForConnections: true,
+  host: process.env.VPS_HOST,       // Sesuaikan dengan host database Anda
+  user: process.env.VPS_USER,            // Sesuaikan dengan user database Anda
+  password: process.env.VPS_PASSWORD,    // Sesuaikan dengan password database Anda
+  database: process.env.VPS_NAME,     // Ganti dengan nama database Anda
+waitForConnections: true,
   connectionLimit: 10,     // Jumlah maksimal koneksi yang dapat dibuat
   queueLimit: 0,           // Tidak ada batasan antrian koneksi
   connectTimeout: 10000    // Waktu maksimal menunggu koneksi (dalam ms)
