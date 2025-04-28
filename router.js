@@ -17,6 +17,7 @@ router.post('/cbn/v1/user/login', user.login);
 router.post('/cbn/v1/user/register', user.register);
 
 router.get('/cbn/v1/kka/getAll', kka.getAllData);
+router.post('/cbn/v1/kka/addOne', kka.addKKA);
 
 router.post('/cbn/v1/artikel/addOneArticle', articleController.addArtikel);
 router.post('/cbn/v1/artikel/uploadbahanKKA', articleController.uploadBahanSharing);
@@ -47,19 +48,30 @@ router.post('/cbn/v1/kesaksian/addOneData', articleController.addArtikel);
 router.post('/cbn/v1/service/doa/formDoa', service.formDoa)
 router.get('/cbn/v1/service/doa/getAll', service.getAll)
 router.post('/cbn/v1/service/doa/deleteOne', service.deleteOneData)
+
 router.get('/cbn/v1/service/baptisan/getFormBaptisan', service.getFormBaptisan)
 router.post('/cbn/v1/service/baptisan/addFormBaptisan', service.formBaptisan)
 router.post('/cbn/v1/service/baptisan/deleteFormBaptisan', service.deleteDataBaptisan)
+
 router.get('/cbn/v1/service/konseling/getData', service.getKonselingData)
 router.post('/cbn/v1/service/konseling/addData', service.addKonsultasiData)
+router.post('/cbn/v1/service/konseling/deleteOneData', service.deleteDataKonsultasi)
+
 router.get('/cbn/v1/service/pelayan/getData', service.getPelayanData)
 router.post('/cbn/v1/service/pelayan/addData', service.addPelayanData)
+router.post('/cbn/v1/service/pelayan/deleteOneData', service.deleteDataPelayan)
+
 router.get('/cbn/v1/service/pernikahan/getData', service.getPernikahanData)
 router.post('/cbn/v1/service/pernikahan/addData', service.addPernikahanData)
+router.post('/cbn/v1/service/pernikahan/deleteOneData', service.deleteDataPernikahan)
+
 router.get('/cbn/v1/service/pemberkatanRumah/getData', service.getPemberkatanRumah)
 router.post('/cbn/v1/service/pemberkatanRumah/addData', service.addPemberkatanRumahData)
+router.post('/cbn/v1/service/pemberkatanRumah/deleteOneData', service.deleteDataPemberkatanRumah)
+
 router.get('/cbn/v1/service/penyerahanAnak/getData', service.getPenyerahanAnak)
 router.post('/cbn/v1/service/penyerahanAnak/addData', service.addPenyerahanAnak)
+router.post('/cbn/v1/service/penyerahanAnak/deleteOneData', service.deleteDataPenyerahanAnak)
 
 
 router.get('/cbn/v1/artikel/kesaksian/getAllData', kesaksian.getAllData)
