@@ -134,7 +134,7 @@ let kka = {
     let id = req.body.id;
     try {
       // Query to get the URL of the file you want to delete
-      let urlQuery = `SELECT img FROM cabang WHERE id = '${id}'`;
+      let urlQuery = `SELECT image FROM kka WHERE id = '${id}'`;
       console.log('===============urlQuery=====================');
       console.log(urlQuery);
       console.log('====================================');
@@ -161,7 +161,7 @@ let kka = {
           console.log(`File ${fileURL} has been deleted`);
   
           // Delete the record from the database
-          let deleteQuery = `DELETE FROM cabang WHERE id = '${id}'`;
+          let deleteQuery = `DELETE FROM kka WHERE id = '${id}'`;
           db.query(deleteQuery)
             .then((result) => {
               console.log(result);
