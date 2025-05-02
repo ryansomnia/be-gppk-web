@@ -144,10 +144,12 @@ let kka = {
       console.log('====================================');
       const fileURL = urlResult[0].image;
       console.log(fileURL);
-  
+
+      // Extract the filename from the URL
+      const filename = fileURL.substring(fileURL.lastIndexOf('/') + 1);
+      const filePath = path.join(__dirname, '..', 'public', 'images', filename);
+
       // Deleting the file
-      const filePath = path.join(__dirname, '..', 'public', 'images', fileURL);
-  
       fs.unlink(filePath, (err) => {
         if (err) {
           console.log(err);
@@ -158,8 +160,8 @@ let kka = {
           };
           res.status(400).send(response);
         } else {
-          console.log(`File ${fileURL} has been deleted`);
-  
+          console.log(`File ${filename} has been deleted`);
+
           // Delete the record from the database
           let deleteQuery = `DELETE FROM kka WHERE id = '${id}'`;
           db.query(deleteQuery)
@@ -183,8 +185,7 @@ let kka = {
             });
         }
       });
-  
-      // Response should not be here
+
       return;
     } catch (error) {
       console.log(error);
