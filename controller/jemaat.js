@@ -28,7 +28,13 @@ let jemaat = {
           data: result,
         };
         res.status(200).send(response);
-      }
+      }else{ let response = {
+        code: 204,
+        message: "data kosong",
+        data: result,
+      };
+      res.status(200).send(response);
+    }
     } catch (error) {
       let response = {
         code: 500,
