@@ -9,6 +9,7 @@ const youtube = require('./controller/youtube');
 const cabang = require('./controller/cabang');
 const kesaksian = require('./controller/kesaksian');
 const kka = require('./controller/kka');
+const jemaat = require('./controller/jemaat');
 
 
 // const authMiddleware = require('../middleware/authMiddleware');
@@ -45,7 +46,13 @@ router.post('/cbn/v1/youtube/addData', youtube.addData);
 router.post('/cbn/v1/youtube/deleteData', youtube.deleteData);
 router.post('/cbn/v1/youtube/updateData', youtube.updateData);
 
-router.post('/cbn/v1/kesaksian/addOneData', articleController.addArtikel);
+// router.post('/cbn/v1/kesaksian/addOneData', articleController.addArtikel);
+
+
+router.get('/cbn/v1/service/jemaat/getAll', jemaat.getData)
+router.post('/cbn/v1/service/jemaat/addData', jemaat.addData)
+router.post('/cbn/v1/service/jemaat/editData', jemaat.editData)
+router.post('/cbn/v1/service/jemaat/deleteData', jemaat.deleteData)
 
 
 router.post('/cbn/v1/service/doa/formDoa', service.formDoa)
@@ -67,6 +74,7 @@ router.post('/cbn/v1/service/pelayan/deleteOneData', service.deleteDataPelayan)
 router.get('/cbn/v1/service/pernikahan/getData', service.getPernikahanData)
 router.post('/cbn/v1/service/pernikahan/addData', service.addPernikahanData)
 router.post('/cbn/v1/service/pernikahan/deleteOneData', service.deleteDataPernikahan)
+router.post('/cbn/v1/service/pernikahan/updateData', service.editPernikahan)
 
 router.get('/cbn/v1/service/pemberkatanRumah/getData', service.getPemberkatanRumah)
 router.post('/cbn/v1/service/pemberkatanRumah/addData', service.addPemberkatanRumahData)
@@ -78,8 +86,10 @@ router.post('/cbn/v1/service/penyerahanAnak/deleteOneData', service.deleteDataPe
 
 
 router.get('/cbn/v1/artikel/kesaksian/getAllData', kesaksian.getAllData)
-router.post('/cbn/v1/artikel/kesaksian/addArtikel', kesaksian.addArtikel)
+router.post('/cbn/v1/artikel/kesaksian/addOne', kesaksian.addOne)
 router.post('/cbn/v1/artikel/kesaksian/deleteOneData', kesaksian.deleteOneData)
+router.post('/cbn/v1/artikel/kesaksian/updateOneData/', kesaksian.updateOneData);
+
 
 
 router.get('/cbn/v1/reportBible/getAll', reportBible.getAll)
@@ -90,6 +100,7 @@ router.get('/cbn/v1/reportBible/getTodaySchedule', reportBible.getTodaySchedule)
 router.get('/cbn/v1/cabang/getAllData',  cabang.getAllData)
 router.post('/cbn/v1/cabang/addCabang',  cabang.addCabang)
 router.post('/cbn/v1/cabang/deleteCabang',  cabang.deleteCabang)
+router.post('/cbn/v1/cabang/editCabang', cabang.addCabang);
 
 
 // Routes for articles

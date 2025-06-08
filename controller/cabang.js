@@ -79,12 +79,23 @@ let cabang = {
  
     // let waktuPembuatan = getFullTime();
 
-    let image = req.files.img;
-    console.log("img", image);
+    let image = req.files.img;  // Access the file from req.files
+  console.log("img", image);
+
+  if (!image) { // Check if image is present
+    let response = {
+      code: 400,
+      message: "Error",
+      error: "Gambar tidak terisi",
+    };
+    res.status(400).send(response);
+    return response;
+  }
+
     let filesize = image.size;
     let ext = path.extname(image.name);
     let filename = image.md5 + ext;
-        const url = `https://api.gppkcbn.org/images/${filename}`;
+        const url = `http://localhost:3013/images/${filename}`;
 
     // const url = `${req.protocol}://${req.get("host")}/images/${filename}`;
     let allowedType = [".png", ".jpg", ".jpeg"];
@@ -148,11 +159,12 @@ let cabang = {
       console.log('================bbbb====================');
       console.log(urlResult);
       console.log('====================================');
-      const fileURL = urlResult[0].image;
+      const fileURL = urlResult[0].img;
       console.log(fileURL);
   
       // Deleting the file
-      const filePath = path.join(__dirname, '..', 'public', 'images', fileURL);
+      const filename = fileURL.substring(fileURL.lastIndexOf('/') + 1);
+      const filePath = path.join(__dirname, '..', 'public', 'images', filename);
   
       fs.unlink(filePath, (err) => {
         if (err) {
@@ -200,6 +212,86 @@ let cabang = {
         error: error.message,
       };
       res.status(400).send(response);
+    }
+  },
+  editCabang: async (req, res) => {
+    const id = req.body.id; // Ambil ID dari request body
+
+    if (!id) {
+      return res.status(400).json({ code: 400, message: "Error", error: "ID tidak ditemukan di request body" });
+    }
+
+    let nama = req.body.name;
+    let category = req.body.category;
+    let leader = req.body.leader;
+    let contact = req.body.contact;
+    let day = req.body.day;
+    let time = req.body.time;
+    let area = req.body.area;
+
+    let updateFields = [];
+    if (nama) updateFields.push(`name = '${nama}'`);
+    if (category) updateFields.push(`category = '${category}'`);
+    if (leader) updateFields.push(`leader = '${leader}'`);
+    if (contact) updateFields.push(`contact = '${contact}'`);
+    if (day) updateFields.push(`day = '${day}'`);
+    if (time) updateFields.push(`time = '${time}'`);
+    if (area) updateFields.push(`area = '${area}'`);
+
+    let filename = null; // Nama file gambar baru
+    let url = null; // URL gambar baru
+    let imageFile = req.files && req.files.img;
+
+    if (imageFile) {
+      let filesize = imageFile.size;
+      let ext = path.extname(imageFile.name);
+      filename = imageFile.md5 + ext;
+      url = `http://localhost:3013/images/${filename}`;
+      let allowedType = [".png", ".jpg", ".jpeg"];
+
+      if (!allowedType.includes(ext.toLowerCase())) {
+        return res.status(422).json({ msg: "invalid Image" });
+      }
+      if (filesize > 5000000) {
+        return res.status(422).json({ msg: " Size overload" });
+      }
+
+      await imageFile.mv(`./public/images/${filename}`);
+      updateFields.push(`image = '${url}'`);
+
+      // Delete old image if it exists
+      try {
+        let oldUrlQuery = `SELECT image FROM kka WHERE id = '${id}'`;
+        let oldUrlResult = await db.query(oldUrlQuery);
+        if (oldUrlResult && oldUrlResult.length > 0 && oldUrlResult[0].image) {
+          const oldFileUrl = oldUrlResult[0].image.replace('http://localhost:3013/images/', '');
+          const oldFilePath = path.join(__dirname, '..', 'public', 'images', oldFileUrl);
+          fs.unlink(oldFilePath, (err) => {
+            if (err && err.code !== 'ENOENT') {
+              console.log("Error deleting old image:", err);
+            } else {
+              console.log(`Old image ${oldFileUrl} deleted`);
+            }
+          });
+        }
+      } catch (error) {
+        console.log("Error deleting old image:", error);
+      }
+    }
+
+    if (updateFields.length === 0) {
+      return res.status(200).json({ code: 200, message: "No data to update" });
+    }
+
+    const updateQuery = `UPDATE kka SET ${updateFields.join(', ')} WHERE id = '${id}'`;
+
+    try {
+      const result = await db.query(updateQuery);
+      console.log(result);
+      res.status(200).json({ code: 200, message: "Data updated successfully", data: result });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ code: 500, message: "Error updating data", error: error });
     }
   },
   

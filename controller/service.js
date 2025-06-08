@@ -143,33 +143,105 @@ VALUES('Permohonan Doa', '${fullName}', '${username}', '${contactInfo}', '${poko
   },
   addPernikahanData: async (req, res) => {
     const {
+
+      tanggalPernikahan,
+      jamPernikahan,
+      tempatPernikahan,
+
       namaLengkapPria,
       tempatLahirPria,
       tanggalLahirPria,
       alamatPria,
       teleponPria,
-      pendidikanTerakhirPria,
       pekerjaanPria,
-      kkaPria,
-      wilayahPria,
+      AgamaPriaDahulu,
+      GerejaPriaDahulu,
+      NoKartuPria,
+      PernikahanPertamaPria,
+      JumlahAnakPria,
+
       namaLengkapWanita,
       tempatLahirWanita,
       tanggalLahirWanita,
       alamatWanita,
       teleponWanita,
-      pendidikanTerakhirWanita,
       pekerjaanWanita,
-      kkaWanita,
-      wilayahWanita,
-      tanggalPernikahan,
-      jamPernikahan,
-      tempatPernikahan,
-      pelayanPernikahan,
+      AgamaWanitaDahulu,
+      GerejaWanitaDahulu,
+      NoKartuWanita,
+      PernikahanPertamaWanita,
+      JumlahAnakWanita,
+
+      BergerejaSejak,
+      ArtiLahirBaru,
+      LamaPerkenalan,
+      KomitmenSuci
     } = req.body;
 
     try {
-      let qry = `INSERT INTO peneguhan_nikah (nama_lengkap_pria, tempat_lahir_pria, tanggal_lahir_pria, alamat_pria, telepon_pria, pendidikan_terakhir_pria, pekerjaan_pria, kka_pria, wilayah_pria, nama_lengkap_wanita, tempat_lahir_wanita, tanggal_lahir_wanita, alamat_wanita, telepon_wanita, pendidikan_terakhir_wanita, pekerjaan_wanita, kka_wanita, wilayah_wanita, tanggal_pernikahan, jam_pernikahan, tempat_pernikahan, pelayan_pernikahan) 
-      VALUES ('${namaLengkapPria}', '${tempatLahirPria}', '${tanggalLahirPria}', '${alamatPria}', '${teleponPria}', '${pendidikanTerakhirPria}', '${pekerjaanPria}', '${kkaPria}', '${wilayahPria}', '${namaLengkapWanita}', '${tempatLahirWanita}', '${tanggalLahirWanita}', '${alamatWanita}', '${teleponWanita}', '${pendidikanTerakhirWanita}', '${pekerjaanWanita}', '${kkaWanita}', '${wilayahWanita}', '${tanggalPernikahan}', '${jamPernikahan}', '${tempatPernikahan}', '${pelayanPernikahan}')`;
+      let qry = `INSERT INTO formPernikahan (
+    tanggalPernikahan,
+    jamPernikahan,
+    tempatPernikahan,
+    namaLengkapPria,
+    tempatLahirPria,
+    tanggalLahirPria,
+    alamatPria,
+    teleponPria,
+    pekerjaanPria,
+    agamaPriaDahulu,
+    gerejaPriaDahulu,
+    noKartuPria,
+    pernikahanPertamaPria,
+    jumlahAnakPria,
+    namaLengkapWanita,
+    tempatLahirWanita,
+    tanggalLahirWanita,
+    alamatWanita,
+    teleponWanita,
+    pekerjaanWanita,
+    agamaWanitaDahulu,
+    gerejaWanitaDahulu,
+    noKartuWanita,
+    pernikahanPertamaWanita,
+    jumlahAnakWanita,
+    bergerejaSejak,
+    artiLahirBaru,
+    lamaPerkenalan,
+    komitmenSuci,
+    createdAT
+) VALUES (
+    '${tanggalPernikahan}',
+    '${jamPernikahan}',
+    '${tempatPernikahan}',
+    '${namaLengkapPria}',
+    '${tempatLahirPria}',
+      '${tanggalLahirPria}',
+      '${alamatPria}',
+      '${teleponPria}',
+     '${pekerjaanPria}',
+      '${AgamaPriaDahulu}',
+      '${GerejaPriaDahulu}',
+      '${NoKartuPria}',
+      '${PernikahanPertamaPria}',
+      '${JumlahAnakPria}',
+      '${namaLengkapWanita}',
+      '${tempatLahirWanita}',
+      '${tanggalLahirWanita}',
+      '${alamatWanita}',
+      '${teleponWanita}',
+      '${pekerjaanWanita}',
+      '${AgamaWanitaDahulu}',
+      '${GerejaWanitaDahulu}',
+      '${NoKartuWanita}',
+      '${PernikahanPertamaWanita}',
+      '${JumlahAnakWanita}',
+       '${BergerejaSejak}',
+      '${ArtiLahirBaru}',
+      '${LamaPerkenalan}',
+      '${KomitmenSuci}',
+      '${getFullTime}'
+)`;
 
       let result = await db.query(qry);
 
@@ -199,6 +271,88 @@ VALUES('Permohonan Doa', '${fullName}', '${username}', '${contactInfo}', '${poko
       console.log("====================================");
       res.status(500).send(response);
     }
+  },
+  editPernikahan: async(req, res) =>{
+    const {
+      id, // The ID of the record to update
+      tanggalPernikahan,
+      jamPernikahan,
+      tempatPernikahan,
+      namaLengkapPria,
+      tempatLahirPria,
+      tanggalLahirPria,
+      alamatPria,
+      teleponPria,
+      pekerjaanPria,
+      AgamaPriaDahulu,
+      GerejaPriaDahulu,
+      NoKartuPria,
+      PernikahanPertamaPria, // This will be 0 or 1 from frontend
+      JumlahAnakPria,
+      namaLengkapWanita,
+      tempatLahirWanita,
+      tanggalLahirWanita,
+      alamatWanita,
+      teleponWanita,
+      pekerjaanWanita,
+      AgamaWanitaDahulu,
+      GerejaWanitaDahulu,
+      NoKartuWanita,
+      PernikahanPertamaWanita, // This will be 0 or 1 from frontend
+      JumlahAnakWanita,
+      BergerejaSejak,
+      ArtiLahirBaru,
+      LamaPerkenalan,
+      KomitmenSuci // This will be 0 or 1 from frontend
+    } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ message: 'ID is required for update.' });
+    }
+
+    const qry = `
+    UPDATE formPernikahan SET
+      tanggalPernikahan = '${tanggalPernikahan}',
+      jamPernikahan = '${jamPernikahan}',
+      tempatPernikahan = '${tempatPernikahan}',
+      namaLengkapPria = '${namaLengkapPria}',
+      tempatLahirPria = '${tempatLahirPria}',
+      tanggalLahirPria = '${tanggalLahirPria}',
+      alamatPria = '${alamatPria}',
+      teleponPria = '${teleponPria}',
+      pekerjaanPria = '${pekerjaanPria}',
+      AgamaPriaDahulu = '${AgamaPriaDahulu}',
+      GerejaPriaDahulu = '${GerejaPriaDahulu}',
+      NoKartuPria = '${NoKartuPria}',
+      PernikahanPertamaPria = '${PernikahanPertamaPria}',
+      JumlahAnakPria = '${JumlahAnakPria}',
+      namaLengkapWanita = '${namaLengkapWanita}',
+      tempatLahirWanita = '${tempatLahirWanita}',
+      tanggalLahirWanita = '${tanggalLahirWanita}',
+      alamatWanita = '${alamatWanita}',
+      teleponWanita = '${teleponWanita}',
+      pekerjaanWanita = '${pekerjaanWanita}',
+      AgamaWanitaDahulu = '${AgamaWanitaDahulu}',
+      GerejaWanitaDahulu = '${GerejaWanitaDahulu}',
+      NoKartuWanita = '${NoKartuWanita}',
+      PernikahanPertamaWanita = '${PernikahanPertamaWanita}',
+      JumlahAnakWanita = '${JumlahAnakWanita}',
+      BergerejaSejak = '${BergerejaSejak}',
+      ArtiLahirBaru = '${ArtiLahirBaru}',
+      LamaPerkenalan = '${LamaPerkenalan}',
+      KomitmenSuci = '${KomitmenSuci}'
+    WHERE id = ${id}
+  `;
+
+  await db.query(qry);
+  
+      let response = {
+        code: 200,
+        message: "success",
+        data: "Data berhasil diperbarui",
+      };
+      return res.status(200).send(response);
+  
   },
   addPemberkatanRumahData: async (req, res) => {
     const { namaLengkap, alamat, nomorHandphone, tanggalPelaksanaan } =
@@ -469,7 +623,7 @@ VALUES('Permohonan Doa', '${fullName}', '${username}', '${contactInfo}', '${poko
   },
   getPernikahanData: async (req, res) => {
     try {
-      let qry = `SELECT * FROM peneguhan_nikah`;
+      let qry = `SELECT * FROM formPernikahan`;
 
       console.log("==============qry======================");
       console.log(qry);
@@ -484,6 +638,13 @@ VALUES('Permohonan Doa', '${fullName}', '${username}', '${contactInfo}', '${poko
       if (0 < result.length) {
         let response = {
           code: 200,
+          message: "success",
+          data: result,
+        };
+        res.status(200).send(response);
+      }else{
+        let response = {
+          code: 204,
           message: "success",
           data: result,
         };
@@ -556,7 +717,16 @@ VALUES('Permohonan Doa', '${fullName}', '${username}', '${contactInfo}', '${poko
           data: result,
         };
         res.status(200).send(response);
+
       }
+      else{ 
+        let response = {
+        code: 200,
+        message: "success",
+        data: result,
+      };
+      res.status(200).send(response);
+    }
     } catch (error) {
       let response = {
         code: 500,
@@ -696,7 +866,7 @@ VALUES('Permohonan Doa', '${fullName}', '${username}', '${contactInfo}', '${poko
   deleteDataPernikahan: async (req, res) => {
     let id = req.body.id;
     try {
-      let qry = `DELETE FROM peneguhan_nikah WHERE id = '${id}'`;
+      let qry = `DELETE FROM formPernikahan WHERE id = '${id}'`;
       console.log("============tttt========================");
       console.log(qry);
       console.log("====================================");
