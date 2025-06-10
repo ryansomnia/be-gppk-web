@@ -94,7 +94,7 @@ let kesaksian = {
     let filesize = image.size;
     let ext = path.extname(image.name);
     let filename = image.md5 + ext;
-        const url = `http://localhost:3013/images/${filename}`;
+        const url = `https://api.gppkcbn.org/images/${filename}`;
 
     // const url = `${req.protocol}://${req.get("host")}/images/${filename}`;
     let allowedType = [".png", ".jpg", ".jpeg"];
@@ -257,7 +257,7 @@ let kesaksian = {
         let filesize = image.size;
         let ext = path.extname(image.name);
         filename = image.md5 + ext;
-        url = `http://localhost:3013/images/${filename}`;
+        url = `https://api.gppkcbn.org/images/${filename}`;
   
         let allowedType = [".png", ".jpg", ".jpeg"];
   

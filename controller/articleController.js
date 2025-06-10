@@ -209,7 +209,7 @@ let artikel = {
     let filesize = image.size;
     let ext = path.extname(image.name);
     let filename = image.md5 + ext;
-        const url = `http://localhost:3013/images/${filename}`;
+        const url = `https://api.gppkcbn.org/images/${filename}`;
 
     // const url = `${req.protocol}://${req.get("host")}/images/${filename}`;
     let allowedType = [".png", ".jpg", ".jpeg"];
@@ -287,7 +287,7 @@ let artikel = {
     console.log("=================filename===================");
     console.log(filename);
     console.log("====================================");
-    const url = `http://localhost:3013/fileSharing/${filename}`;
+    const url = `https://api.gppkcbn.org/fileSharing/${filename}`;
 
     // const url = `${req.protocol}://${req.get("host")}/fileSharing/${filename}`;
     let allowedType = [".pdf", ".doc", ".docx"];
@@ -444,7 +444,7 @@ let artikel = {
       let filesize = image.size;
       let ext = path.extname(image.name);
       filename = image.md5 + ext;
-      url = `http://localhost:3013/images/${filename}`;
+      url = `https://api.gppkcbn.org/images/${filename}`;
 
       let allowedType = [".png", ".jpg", ".jpeg"];
 
@@ -539,7 +539,7 @@ updateOneRenunganData: async (req, res) => {
       let filesize = fileDoc.size;
       let ext = path.extname(fileDoc.name);
       filename = fileDoc + ext;
-      url = `http://localhost:3013/fileSharing/${filename}`;
+      url = `https://api.gppkcbn.org/fileSharing/${filename}`;
 
       let allowedType = [".doc", ".pdf", ".docx"];
 

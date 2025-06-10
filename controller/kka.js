@@ -87,7 +87,7 @@ let kka = {
       let filesize = imageFile.size;
       let ext = path.extname(imageFile.name);
       let filename = imageFile.md5 + ext;
-      url = `http://localhost:3013/images/${filename}`;
+      url = `https://api.gppkcbn.org/images/${filename}`;
       let allowedType = [".png", ".jpg", ".jpeg"];
 
       if (!allowedType.includes(ext.toLowerCase())) {
@@ -229,7 +229,7 @@ let kka = {
       let filesize = imageFile.size;
       let ext = path.extname(imageFile.name);
       filename = imageFile.md5 + ext;
-      url = `http://localhost:3013/images/${filename}`;
+      url = `https://api.gppkcbn.org/images/${filename}`;
       let allowedType = [".png", ".jpg", ".jpeg"];
 
       if (!allowedType.includes(ext.toLowerCase())) {
@@ -247,7 +247,7 @@ let kka = {
         let oldUrlQuery = `SELECT image FROM kka WHERE id = '${id}'`;
         let oldUrlResult = await db.query(oldUrlQuery);
         if (oldUrlResult && oldUrlResult.length > 0 && oldUrlResult[0].image) {
-          const oldFileUrl = oldUrlResult[0].image.replace('http://localhost:3013/images/', '');
+          const oldFileUrl = oldUrlResult[0].image.replace('https://api.gppkcbn.org/images/', '');
           const oldFilePath = path.join(__dirname, '..', 'public', 'images', oldFileUrl);
           fs.unlink(oldFilePath, (err) => {
             if (err && err.code !== 'ENOENT') {
