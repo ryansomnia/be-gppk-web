@@ -30,8 +30,12 @@ app.use('/css', express.static(__dirname + 'public/css'))
 
 
 // Navigation 
-app.get('', (req,res) => {
-    res.render('index')
+app.get('/', (req,res) => {
+  res.json({
+      success: true,
+      service: 'GPPK API',
+      status: 'running'
+  })
 })
 
 app.use(cors());
